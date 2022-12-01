@@ -24,6 +24,10 @@ const EditButton = ({ onClick }) => {
 };
 
 const useColumns = (onEdit, onDelete) => {
+  const users = JSON.parse(
+    localStorage.getItem(process.env.REACT_APP_LOCAL_STORAGE_USERS)
+  );
+
   return [
     {
       field: "importance",
@@ -47,26 +51,29 @@ const useColumns = (onEdit, onDelete) => {
       field: "responsible",
       width: 150,
       editable: true,
+      renderCell: ({ row: { responsible } }) => {
+        return <>{users.find((user) => user.id === responsible)?.name ?? ""}</>;
+      },
     },
     {
       field: "dueDt",
       headerName: "Due Date",
-      width: 150,
+      width: 200,
       editable: false,
     },
     {
       field: "createDt",
       headerName: "Create Date",
-      valueGetter: ({ value }) => new Date(value).toLocaleDateString("en-CA"),
-      width: 150,
+      valueGetter: ({ value }) => new Date(value).toLocaleString("en-CA"),
+      width: 200,
       editable: false,
     },
     {
       field: "editDt",
       headerName: "Edit Date",
       valueGetter: ({ value }) =>
-        value ? new Date(value).toLocaleDateString("en-CA") : "",
-      width: 150,
+        value ? new Date(value).toLocaleString("en-CA") : "",
+      width: 200,
       editable: false,
     },
     {

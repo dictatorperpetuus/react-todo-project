@@ -4,20 +4,25 @@ import Container from "../Container";
 import { DataGrid } from "@mui/x-data-grid";
 import DialogModal from "../AddTodo/DialogModal";
 import useColumns from "../AddTodo/useColumns";
+import AddUsersDialogModal from "../CreatingUsers/AddUsersDialogModal";
 
 const LOCAL_STORAGE_KEY = "todo:savedTasks";
+
+const AddUser = ({ onClick }) => {
+  return <Button onClick={onClick}>+ User</Button>;
+};
 
 const AddButton = ({ onClick }) => {
   return <Button onClick={onClick}>+ Task</Button>;
 };
 
 const TodoList = () => {
-  const [todo, setTodo] = useState([]);
+  const [item, setItem] = useState([]);
 
   function loadSavedTasks() {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (saved) {
-      setTodo(JSON.parse(saved));
+      setItem(JSON.parse(saved));
     }
   }
 
@@ -26,22 +31,22 @@ const TodoList = () => {
   }, []);
 
   function setTaskAndSave(newTasks) {
-    setTodo(newTasks);
+    setItem(newTasks);
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newTasks));
   }
 
   const deleteTodo = (id) => {
-    const newTodo = todo.filter((item) => item.id !== id);
+    const newTodo = item.filter((item) => item.id !== id);
     setTaskAndSave(newTodo);
   };
 
   const editTodo = (task) => {
-    const filteredList = todo.filter((item) => item.id !== task.id);
+    const filteredList = item.filter((item) => item.id !== task.id);
     setTaskAndSave([...filteredList, task]);
   };
 
   const addTodo = (task) => {
-    setTaskAndSave([...todo, task]);
+    setTaskAndSave([...item, task]);
   };
 
   const columns = useColumns(editTodo, deleteTodo);
@@ -49,9 +54,10 @@ const TodoList = () => {
   return (
     <Container>
       <DialogModal InitButton={AddButton} onCreate={addTodo} />
+      <AddUsersDialogModal InitButton={AddUser} onClick={AddUser} />
       <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={todo}
+          rows={item}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}

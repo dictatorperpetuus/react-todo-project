@@ -11,12 +11,13 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
+import AddUsersSelectField from "../CreatingUsers/AddUsersSelectField";
 
 const initState = {
   id: null,
   task: "",
   importance: false,
-  responsible: "",
+  responsible: null,
   dueDt: "",
   createDt: null,
   editDt: null,
@@ -30,6 +31,8 @@ const DialogModal = ({
 }) => {
   const [task, setTask] = useState({});
   const [open, setOpen] = useState(false);
+
+  const checkedFormField = task.task && task.responsible && task.dueDt;
 
   const handleOpenModal = () => {
     setOpen((open) => !open);
@@ -82,13 +85,12 @@ const DialogModal = ({
               onChange={handleChangeEvent("task")}
               value={task.task}
             />
-            <TextField
-              sx={{ width: "100%", mb: 2 }}
-              label="User name"
-              variant="outlined"
+
+            <AddUsersSelectField
               onChange={handleChangeEvent("responsible")}
               value={task.responsible}
             />
+
             <TextField
               sx={{ width: "100%", mb: 2 }}
               label="Due Date"
@@ -117,6 +119,7 @@ const DialogModal = ({
             variant="outlined"
             color="primary"
             onClick={handleSubmitEvent}
+            disabled={!checkedFormField}
           >
             Add
           </Button>
