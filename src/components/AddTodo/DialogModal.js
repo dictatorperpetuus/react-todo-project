@@ -17,7 +17,7 @@ const initState = {
   id: null,
   task: "",
   importance: false,
-  responsible: null,
+  responsible: "",
   dueDt: "",
   createDt: null,
   editDt: null,

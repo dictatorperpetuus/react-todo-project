@@ -11,7 +11,7 @@ import {
   TextField,
 } from "@mui/material";
 
-const AddUsersDialogModal = ({ InitButton }) => {
+const AddUsersDialogModal = ({ InitButton, onCreate }) => {
   const [open, setOpen] = useState(false);
   const [newUser, setNewUser] = useState("");
 
@@ -36,23 +36,19 @@ const AddUsersDialogModal = ({ InitButton }) => {
   };
 
   const addUser = () => {
+    handleClickOpen();
     const item = {
       id: uuidv4(),
       name: newUser,
     };
     setAndSaveUsers(item);
     setNewUser("");
+    onCreate();
   };
 
   return (
     <Box>
-      <Button
-        sx={{ alignItems: "center", display: "flex", float: "right" }}
-        variant="outlined"
-        onClick={handleClickOpen}
-      >
-        Open form dialog
-      </Button>
+      <InitButton onClick={handleClickOpen} />
       <Dialog open={open} onClose={handleClickOpen}>
         <DialogTitle>Add new user</DialogTitle>
         <DialogContent>
@@ -68,7 +64,7 @@ const AddUsersDialogModal = ({ InitButton }) => {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => addUser()} type="submit" variant="outlined">
+          <Button onClick={addUser} type="submit" variant="outlined">
             Add
           </Button>
           <Button onClick={handleClickOpen} variant="outlined">
