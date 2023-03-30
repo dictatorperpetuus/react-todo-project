@@ -71,6 +71,10 @@ const DialogModal = ({
     }
   }, [open]);
 
+  const data = () => {
+    console.log('text')
+  }
+
   return (
     <>
       <InitButton onClick={handleOpenModal} />
